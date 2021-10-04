@@ -14,5 +14,8 @@ ONBUILD WORKDIR /app
 ONBUILD RUN go mod download
 ONBUILD RUN go mod verify
 
+ONBUILD ARG target_arg=./cmd/main.go
+ONBUILD ENV TARGET=${target_arg}
+
 # Build statically linked app
-ONBUILD RUN CGO_ENABLED=0 go build -ldflags="-extldflags=-static" -o app ./cmd/main.go
+ONBUILD RUN CGO_ENABLED=0 go build -ldflags="-extldflags=-static" -o app $TARGET

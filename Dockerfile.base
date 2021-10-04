@@ -1,7 +1,7 @@
 #
 # Builder
 #
-FROM alpine:latest as distroless-builder
+FROM alpine:latest AS distroless-builder
 
 # Git is required for fetching the dependencies.
 RUN apk update && \
@@ -12,13 +12,13 @@ RUN apk update && \
 ENV USER=appuser
 ENV UID=10001
 
-RUN adduser \    
-    --disabled-password \    
-    --gecos "" \    
-    --home "/nonexistent" \    
+RUN adduser \
+    --disabled-password \
+    --gecos "" \
+    --home "/nonexistent" \
     --shell "/sbin/nologin" \
-    --no-create-home \    
-    --uid "${UID}" \    
+    --no-create-home \
+    --uid "${UID}" \
     "${USER}"
 
 # 
