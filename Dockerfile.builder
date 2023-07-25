@@ -1,4 +1,4 @@
-FROM golang:alpine
+FROM golang:1.20-alpine
 
 # Git is required for fetching the dependencies.
 RUN apk update && \
@@ -20,4 +20,4 @@ ONBUILD ENV TARGET=${target_arg}
 
 # Build statically linked app
 ONBUILD COPY . .
-ONBUILD RUN CGO_ENABLED=0 go build -ldflags="-extldflags=-static" -o app $TARGET
+ONBUILD RUN GOWORK=off CGO_ENABLED=0 go build -ldflags="-extldflags=-static" -o app $TARGET
