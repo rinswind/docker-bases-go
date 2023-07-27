@@ -8,7 +8,7 @@ RUN apk update && \
     apk add --no-cache git ca-certificates tzdata && \
     update-ca-certificates
 
-RUN GO111MODULE=on CGO_ENABLED=0 go install -ldflags '-s -w -extldflags=-static' github.com/go-delve/delve/cmd/dlv@v1.21.0
+RUN CGO_ENABLED=0 go install -ldflags '-s -w -extldflags=-static' github.com/go-delve/delve/cmd/dlv@v1.21.0
 
 # 
 # Runtime
@@ -20,6 +20,7 @@ FROM busybox:musl
 COPY --from=debug-builder /usr/share/zoneinfo /usr/share/zoneinfo
 COPY --from=debug-builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=debug-builder /go/bin/dlv /usr/bin/dlv
+ONBUILD COPY --from=builder /app /app
 ONBUILD COPY --from=builder /app/app /usr/bin/app
 
 # Create unprivileged appuser
